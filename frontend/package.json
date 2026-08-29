@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node -e \"try { require('./node_modules/esbuild/install.js'); } catch (e) { try { require('../node_modules/esbuild/install.js'); } catch (e2) {} }\" && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
