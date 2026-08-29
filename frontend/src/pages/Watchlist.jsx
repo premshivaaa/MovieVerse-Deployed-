@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MovieCard from '../components/MovieCard';
+import { API_BASE_URL } from '../utils/api';
 
 const Watchlist = () => {
     const [movies, setMovies] = useState([]);
@@ -14,7 +15,7 @@ const Watchlist = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/movies/watchlist`, {
+            const res = await axios.get(`${API_BASE_URL}/movies/watchlist`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMovies(res.data);
@@ -28,7 +29,7 @@ const Watchlist = () => {
     const removeFromWatchlist = async (movie) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/movies/watchlist/${movie.tmdbId}`, {
+            await axios.delete(`${API_BASE_URL}/movies/watchlist/${movie.tmdbId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMovies(movies.filter(m => m.tmdbId !== movie.tmdbId));

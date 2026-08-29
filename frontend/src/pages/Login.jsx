@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import {toastSuccess} from '../utils/toast'
+import {toastSuccess} from '../utils/toast';
+import { API_BASE_URL } from '../utils/api';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, { email, password });
+            const res = await axios.post(`${API_BASE_URL}/auth/login`, { email, password });
             login(res.data.user, res.data.token);
             navigate('/');
             toastSuccess(`Welcome Back, ${res.data.user.name} `)

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MovieCard from '../components/MovieCard';
-import {toastSuccess} from "../utils/toast"
+import {toastSuccess} from "../utils/toast";
+import { API_BASE_URL } from "../utils/api";
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -22,7 +23,7 @@ const Home = () => {
         try {
             const token = localStorage.getItem('token');
             if (!token) return;
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/movies/watchlist`, {
+            const res = await axios.get(`${API_BASE_URL}/movies/watchlist`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const ids = res.data.map(m => m.tmdbId);
@@ -36,7 +37,7 @@ const Home = () => {
         try {
             setLoading(true);
             setError('');
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/movies/popular`);
+            const res = await axios.get(`${API_BASE_URL}/movies/popular`);
             setMovies(res.data.results || []);
             setLoading(false);
         } catch (err) {
@@ -54,7 +55,7 @@ const Home = () => {
         }
         try {
             setLoading(true);
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/movies/search?query=${searchQuery}`);
+            const res = await axios.get(`${API_BASE_URL}/movies/search?query=${searchQuery}`);
             setMovies(res.data.results);
             setLoading(false);
         } catch (err) {
@@ -68,7 +69,7 @@ const Home = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`${import.meta.env.VITE_API_BASE_URL}/movies/watchlist`, {
+            await axios.post(`${API_BASE_URL}/movies/watchlist`, {
                 tmdbId: movie.id,
                 title: movie.title,
                 poster: movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : null,
@@ -89,7 +90,7 @@ const Home = () => {
     const removeFromWatchlist = async (movie) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/movies/watchlist/${movie.id}`, {
+            await axios.delete(`${API_BASE_URL}/movies/watchlist/${movie.id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAddedMovieIds(prev => prev.filter(id => id !== movie.id));

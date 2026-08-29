@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import MovieTrailer from '../components/MovieTrailer'
+import MovieTrailer from '../components/MovieTrailer';
+import { API_BASE_URL } from '../utils/api';
 
 const MovieDetail = () => {
     const { id } = useParams();
@@ -12,7 +13,7 @@ const MovieDetail = () => {
     useEffect(() => {
         const fetchDetails = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/movies/details/${id}`);
+                const res = await axios.get(`${API_BASE_URL}/movies/details/${id}`);
                 setMovie(res.data);
                 setLoading(false);
             } catch (err) {
